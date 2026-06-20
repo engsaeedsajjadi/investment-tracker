@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>سرمایه‌یار | مدیریت سرمایه شخصی</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- Toast Container -->
+<div id="toast-container"></div>
+
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="logo">
+      <span class="logo-icon">💹</span>
+      <span class="logo-text">سرمایه‌یار</span>
+    </div>
+    <button class="sidebar-close" id="sidebarClose">✕</button>
+  </div>
+  <ul class="nav-list">
+    <li><a href="#" class="nav-link active" data-page="dashboard"><span class="nav-icon">📊</span> داشبورد</a></li>
+    <li><a href="#" class="nav-link" data-page="accounts"><span class="nav-icon">🏦</span> حساب‌ها</a></li>
+    <li><a href="#" class="nav-link" data-page="assets"><span class="nav-icon">📈</span> دارایی‌ها</a></li>
+    <li><a href="#" class="nav-link" data-page="transactions"><span class="nav-icon">💸</span> معاملات</a></li>
+    <li><a href="#" class="nav-link" data-page="daily"><span class="nav-icon">📅</span> ثبت روزانه</a></li>
+    <li><a href="#" class="nav-link" data-page="reports"><span class="nav-icon">📉</span> گزارش‌ها</a></li>
+    <li><a href="#" class="nav-link" data-page="import"><span class="nav-icon">📂</span> وارد کردن داده</a></li>
+    <li class="nav-divider"></li>
+    <li><a href="#" class="nav-link" data-page="backup"><span class="nav-icon">💾</span> پشتیبان‌گیری</a></li>
+  </ul>
+  <div class="sidebar-footer">
+    <span id="lastUpdate">آخرین بروزرسانی: —</span>
+  </div>
+</nav>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay"></div>
+
+<!-- Main -->
+<div class="main-wrapper" id="mainWrapper">
+  <header class="topbar">
+    <button class="menu-btn" id="menuBtn">☰</button>
+    <h1 class="page-title" id="pageTitle">داشبورد</h1>
+    <div class="topbar-actions">
+      <button class="btn btn-primary btn-sm" id="quickAddBtn">+ معامله جدید</button>
+    </div>
+  </header>
+
+  <main class="content" id="appContent">
+    <!-- Pages injected here -->
+  </main>
+</div>
+
+<!-- Modal -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">عنوان</h3>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script src="js/db.js"></script>
+<script src="js/app.js"></script>
+<script src="js/pages/dashboard.js"></script>
+<script src="js/pages/accounts.js"></script>
+<script src="js/pages/assets.js"></script>
+<script src="js/pages/transactions.js"></script>
+<script src="js/pages/daily.js"></script>
+<script src="js/pages/reports.js"></script>
+<script src="js/pages/import.js"></script>
+<script src="js/pages/backup.js"></script>
+<script>
+  App.init();
+</script>
+</body>
+</html>
