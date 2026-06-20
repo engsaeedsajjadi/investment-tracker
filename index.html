@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>سرمایه‌یار | مدیریت سرمایه شخصی</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <link rel="stylesheet" href="css/style.css" />
+
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
 
@@ -24,6 +27,7 @@
     </div>
     <button class="sidebar-close" id="sidebarClose">✕</button>
   </div>
+
   <ul class="nav-list">
     <li><a href="#" class="nav-link active" data-page="dashboard"><span class="nav-icon">📊</span> داشبورد</a></li>
     <li><a href="#" class="nav-link" data-page="accounts"><span class="nav-icon">🏦</span> حساب‌ها</a></li>
@@ -35,6 +39,7 @@
     <li class="nav-divider"></li>
     <li><a href="#" class="nav-link" data-page="backup"><span class="nav-icon">💾</span> پشتیبان‌گیری</a></li>
   </ul>
+
   <div class="sidebar-footer">
     <span id="lastUpdate">آخرین بروزرسانی: —</span>
   </div>
@@ -45,6 +50,7 @@
 
 <!-- Main -->
 <div class="main-wrapper" id="mainWrapper">
+
   <header class="topbar">
     <button class="menu-btn" id="menuBtn">☰</button>
     <h1 class="page-title" id="pageTitle">داشبورد</h1>
@@ -54,8 +60,9 @@
   </header>
 
   <main class="content" id="appContent">
-    <!-- Pages injected here -->
+    <!-- صفحات اینجا لود می‌شوند -->
   </main>
+
 </div>
 
 <!-- Modal -->
@@ -69,18 +76,22 @@
   </div>
 </div>
 
-<script src="./js/db.js"></script>
-<script src="./js/app.js"></script>
-<script src="./js/pages/dashboard.js"></script>
-<script src="./js/pages/accounts.js"></script>
-<script src="./js/pages/assets.js"></script>
-<script src="./js/pages/transactions.js"></script>
-<script src="./js/pages/daily.js"></script>
-<script src="./js/pages/reports.js"></script>
-<script src="./js/pages/import.js"></script>
-<script src="./js/pages/backup.js"></script>
+<!-- Scripts -->
+<script src="/js/db.js"></script>
+<script src="/js/app.js"></script>
+
+<script src="/js/pages/dashboard.js"></script>
+<script src="/js/pages/accounts.js"></script>
+<script src="/js/pages/assets.js"></script>
+<script src="/js/pages/transactions.js"></script>
+<script src="/js/pages/daily.js"></script>
+<script src="/js/pages/reports.js"></script>
+<script src="/js/pages/import.js"></script>
+<script src="/js/pages/backup.js"></script>
+
 <script>
   App.init();
 </script>
+
 </body>
 </html>
