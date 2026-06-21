@@ -108,7 +108,10 @@ Pages.reports = (() => {
     cutoff.setDate(cutoff.getDate() - days);
     const vals = DB.dailyValues.recent(days);
 
-    const labels = vals.map(d => new Date(d.date).toLocaleDateString('fa-IR', { month: 'short', day: 'numeric' }));
+    const labels = vals.map(d => {
+      const j = Jalali.fromGregorianDate(d.date);
+      return j ? Jalali.persianDigits(`${j.jd} ${Jalali.monthNames[j.jm - 1].slice(0,3)}`) : '';
+    });
     const data = vals.map(d => d.totalValue);
 
     charts.growth = new Chart(ctx, {
@@ -147,22 +150,30 @@ Pages.reports = (() => {
     if (charts.pnl) { charts.pnl.destroy(); }
 
     const vals = DB.dailyValues.recent(365);
-    // group by month
+    // group by Jalali month
     const monthMap = {};
-    vals.forEach((v, i) => {
-      const m = v.date.slice(0, 7);
-      monthMap[m] = v.totalValue;
+    const monthOrder = [];
+    vals.forEach(v => {
+      const j = Jalali.fromGregorianDate(v.date);
+      if (!j) return;
+      const key = `${j.jy}-${String(j.jm).padStart(2, '0')}`;
+      if (!(key in monthMap)) monthOrder.push(key);
+      monthMap[key] = v.totalValue; // last value of the month wins (vals are chronological)
     });
-    const months = Object.keys(monthMap).sort();
+    const months = monthOrder.sort();
     const pnlData = months.map((m, i) => {
       if (i === 0) return 0;
       return monthMap[m] - monthMap[months[i - 1]];
+    });
+    const monthLabels = months.map(m => {
+      const [jy, jm] = m.split('-').map(Number);
+      return Jalali.persianDigits(Jalali.monthNames[jm - 1].slice(0, 3) + ' ' + String(jy).slice(-2));
     });
 
     charts.pnl = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: months.map(m => m.replace('-', '/')),
+        labels: monthLabels,
         datasets: [{
           label: 'سود/زیان ماهانه',
           data: pnlData,

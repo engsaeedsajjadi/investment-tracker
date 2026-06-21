@@ -170,7 +170,10 @@ Pages.dashboard = (() => {
     cutoff.setDate(cutoff.getDate() - days);
     const filtered = dailyVals.filter(d => new Date(d.date) >= cutoff);
 
-    const labels = filtered.map(d => new Date(d.date).toLocaleDateString('fa-IR', { month: 'short', day: 'numeric' }));
+    const labels = filtered.map(d => {
+      const j = Jalali.fromGregorianDate(d.date);
+      return j ? Jalali.persianDigits(`${j.jd} ${Jalali.monthNames[j.jm - 1].slice(0,3)}`) : '';
+    });
     const data = filtered.map(d => d.totalValue);
 
     growthChart = new Chart(ctx, {

@@ -22,8 +22,9 @@ Pages.transactions = (() => {
           <option value="">همه حساب‌ها</option>
           ${accounts.map(a => `<option value="${a.id}">${a.name}</option>`).join('')}
         </select>
-        <input type="date" class="form-control" id="txDateFrom" onchange="Pages.transactions.filterTable()" placeholder="از تاریخ">
-        <input type="date" class="form-control" id="txDateTo" onchange="Pages.transactions.filterTable()" placeholder="تا تاریخ">
+        <input type="text" class="form-control ltr" id="txDateFrom" placeholder="از تاریخ" style="width:130px">
+        <input type="text" class="form-control ltr" id="txDateTo" placeholder="تا تاریخ" style="width:130px">
+        <button class="btn btn-ghost btn-sm" id="txDateClear" onclick="Pages.transactions.clearDateFilter()">پاک کردن تاریخ</button>
       </div>
       <div class="card">
         <div class="table-wrap">
@@ -47,7 +48,27 @@ Pages.transactions = (() => {
         </div>
       </div>
     `;
+    setupDatePickers();
     renderTable();
+  }
+
+  function setupDatePickers() {
+    JalaliDatePicker.attach('txDateFrom', { initialISO: '', onChange: () => filterTable() });
+    JalaliDatePicker.attach('txDateTo', { initialISO: '', onChange: () => filterTable() });
+    const from = document.getElementById('txDateFrom');
+    const to = document.getElementById('txDateTo');
+    if (from) { from.value = ''; from.dataset.isoValue = ''; }
+    if (to) { to.value = ''; to.dataset.isoValue = ''; }
+  }
+
+  function clearDateFilter() {
+    JalaliDatePicker.setISOValue('txDateFrom', '');
+    JalaliDatePicker.setISOValue('txDateTo', '');
+    const from = document.getElementById('txDateFrom');
+    const to = document.getElementById('txDateTo');
+    if (from) from.value = '';
+    if (to) to.value = '';
+    filterTable();
   }
 
   function renderTable() {
@@ -60,8 +81,8 @@ Pages.transactions = (() => {
     const search = document.getElementById('txSearch')?.value?.toLowerCase() || '';
     const typeF = document.getElementById('txTypeFilter')?.value || '';
     const accF = document.getElementById('txAccountFilter')?.value || '';
-    const dateFrom = document.getElementById('txDateFrom')?.value || '';
-    const dateTo = document.getElementById('txDateTo')?.value || '';
+    const dateFrom = JalaliDatePicker.getISOValue('txDateFrom') || '';
+    const dateTo = JalaliDatePicker.getISOValue('txDateTo') || '';
 
     let txs = DB.transactions.getAll();
     if (search) txs = txs.filter(t => (t.symbol || '').toLowerCase().includes(search) || (t.description || '').toLowerCase().includes(search));
@@ -103,6 +124,7 @@ Pages.transactions = (() => {
       <button class="btn btn-primary" onclick="Pages.transactions.save()">ثبت معامله</button>
     </div>`;
     updateFormVisibility();
+    JalaliDatePicker.attach('ft_date', { initialISO: Jalali.todayISO() });
   }
 
   function formHTML(accounts, assets) {
@@ -120,7 +142,7 @@ Pages.transactions = (() => {
         </div>
         <div class="form-group">
           <label class="form-label">تاریخ *</label>
-          <input type="date" class="form-control ltr" id="ft_date" value="${new Date().toISOString().split('T')[0]}">
+          <input type="text" class="form-control ltr" id="ft_date" placeholder="۱۴۰۳/۰۱/۰۱">
         </div>
       </div>
       <div class="form-group">
@@ -201,7 +223,7 @@ Pages.transactions = (() => {
   function save() {
     const type = document.getElementById('ft_type')?.value;
     const accountId = document.getElementById('ft_account')?.value;
-    const date = document.getElementById('ft_date')?.value;
+    const date = JalaliDatePicker.getISOValue('ft_date');
     if (!type || !accountId || !date) { App.toast('لطفاً نوع، حساب و تاریخ را وارد کنید', 'error'); return; }
 
     const isTradeType = type === 'buy' || type === 'sell';

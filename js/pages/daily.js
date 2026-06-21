@@ -4,7 +4,6 @@ Pages.daily = (() => {
   function render(el) {
     const accounts = DB.accounts.getAll();
     const assets = DB.assets.getAll();
-    const today = new Date().toISOString().split('T')[0];
 
     el.innerHTML = `
       <div class="section-header mb-6">
@@ -19,7 +18,7 @@ Pages.daily = (() => {
           </div>
           <div class="form-group">
             <label class="form-label">تاریخ</label>
-            <input type="date" class="form-control ltr" id="d_date" value="${today}">
+            <input type="text" class="form-control ltr" id="d_date" placeholder="۱۴۰۳/۰۱/۰۱">
           </div>
           <div id="priceUpdateList">
             ${assets.length === 0 ? '<p class="text-muted text-sm">دارایی‌ای برای بروزرسانی وجود ندارد</p>' :
@@ -77,6 +76,7 @@ Pages.daily = (() => {
     `;
 
     renderHistory(accounts);
+    JalaliDatePicker.attach('d_date', { initialISO: Jalali.todayISO() });
   }
 
   function renderHistory(accounts) {
@@ -95,7 +95,7 @@ Pages.daily = (() => {
   }
 
   function savePrices() {
-    const date = document.getElementById('d_date')?.value;
+    const date = JalaliDatePicker.getISOValue('d_date') || Jalali.todayISO();
     const inputs = document.querySelectorAll('[data-asset-id]');
     let updated = 0;
     let total = 0;
@@ -120,7 +120,7 @@ Pages.daily = (() => {
   }
 
   function saveAccountValues() {
-    const date = document.getElementById('d_date')?.value || new Date().toISOString().split('T')[0];
+    const date = JalaliDatePicker.getISOValue('d_date') || Jalali.todayISO();
     const accounts = DB.accounts.getAll();
     let saved = 0;
     accounts.forEach(acc => {

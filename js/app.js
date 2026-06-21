@@ -116,14 +116,14 @@ const App = (() => {
 
   function fmtDate(d) {
     if (!d) return '—';
-    return new Date(d).toLocaleDateString('fa-IR');
+    return Jalali.isoToJalaliStr(d);
   }
 
   function pnlClass(v) { return v >= 0 ? 'text-green' : 'text-red'; }
   function pnlBadge(v) { return v >= 0 ? 'badge-green' : 'badge-red'; }
 
   function updateLastUpdate() {
-    document.getElementById('lastUpdate').textContent = 'آخرین بروزرسانی: ' + new Date().toLocaleDateString('fa-IR');
+    document.getElementById('lastUpdate').textContent = 'آخرین بروزرسانی: ' + Jalali.isoToJalaliStr(Jalali.todayISO());
   }
 
   const typeLabels = { stock: 'سهام', gold: 'طلا', fixed_income: 'درآمد ثابت', forex: 'فارکس', cash: 'نقد' };
